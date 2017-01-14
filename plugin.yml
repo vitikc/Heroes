@@ -1,0 +1,7 @@
+name: Heroes
+main: me.vitikc.heroes.Heroes
+version: 0.1
+commands:
+  heroes:
+    description: Main command
+    usage: /<command>
