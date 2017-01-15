@@ -12,6 +12,7 @@ public class HeroesAbilitiesManager {
     private HeroesAbilityUtils abiliyUtils;
     public HeroesAbilitiesManager(Heroes plugin) {
         this.plugin = plugin;
+        abiliyUtils = plugin.getAbilityUtils();
     }
 
     //BARBARIAN
@@ -46,5 +47,9 @@ public class HeroesAbilitiesManager {
     }
     //ENDBARBARIAN
     //LEGIONCOMMANDER
+    public void LegionCommanderAttackAbility(Player player){
+        for (int i = 0; i< 20; i++)
+           abiliyUtils.spawnArrow(player);
+    }
     //ENDLEGIONCOMMANDER
 }

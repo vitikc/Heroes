@@ -31,15 +31,17 @@ public class HeroesItemListener implements Listener {
     private void onItemUseEvent(PlayerInteractEvent event){
         Player player = event.getPlayer();
         //if(!heroesManager.isSet(player)) return;
-        if(player.getInventory().getItemInMainHand().getType() != Material.STICK) return;
-        player.sendMessage("1");
-        Player target = abilityUtils.getTargetPlayer(player);
-        if (target==null) {
-            player.sendMessage("No players found");
-            return;
+        if(player.getInventory().getItemInMainHand().getType() == Material.STICK) {
+            player.sendMessage("1");
+            Player target = abilityUtils.getTargetPlayer(player);
+            if (target == null) {
+                player.sendMessage("No players found");
+                return;
+            }
+            target.sendMessage("you are target");
+            abilitiesManager.BarbarianAttackAbility(player, target);
+        } else if(player.getInventory().getItemInMainHand().getType() == Material.DIAMOND){
+            abilitiesManager.LegionCommanderAttackAbility(player);
         }
-        target.sendMessage("you are target");
-        abilitiesManager.BarbarianAttackAbility(player,target);
-        player.sendMessage("done");
     }
 }

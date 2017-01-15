@@ -3,11 +3,16 @@ package me.vitikc.heroes.abilities;
 import me.vitikc.heroes.Heroes;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by Vitikc on 09/Jan/17.
@@ -37,6 +42,15 @@ public class HeroesAbilityUtils {
 
         return (b1||b2||b3||b4);
     }
+    public void spawnArrow(Player owner){
+        Location location = owner.getTargetBlock((Set<Material>) null,10).getLocation();
+        Random random = new Random();
+        location.add(random.nextInt(6),10,random.nextInt(5));
+        Vector direction = new Vector(0,-1,0);
+        Arrow arrow = owner.getWorld().spawnArrow(location,direction,5.0f,0f);
+        arrow.setCustomName(owner.getDisplayName());
+    }
+
     public void setSpeed(Player target, int duration){
         target.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,duration*20,1));
     }
