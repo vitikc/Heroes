@@ -1,30 +1,28 @@
 package me.vitikc.heroes.listeners;
 
-import me.vitikc.heroes.Heroes;
+import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
 import me.vitikc.heroes.abilities.HeroesAbilityUtils;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import sun.plugin2.message.HeartbeatMessage;
 
 /**
  * Created by Vitikc on 11/Jan/17.
  */
 public class HeroesDamageListener implements Listener {
-    private Heroes plugin;
+    private HeroesMain plugin;
     private HeroesAbilityUtils abilityUtils;
     private HeroesAbilitiesManager abilitiesManager;
 
 
-    public HeroesDamageListener(Heroes plugin){
+    public HeroesDamageListener(HeroesMain plugin){
         this.plugin = plugin;
         abilitiesManager = plugin.getAbilitiesManager();
+        abilityUtils = plugin.getAbilityUtils();
     }
 
     @EventHandler
@@ -35,12 +33,15 @@ public class HeroesDamageListener implements Listener {
         Player target = (Player) event.getEntity();
         //switch () heroes
         if (abilityUtils.isCounterAttackProc(30))
-            abilitiesManager.BarbarianDefenseAbility(target);
+            abilitiesManager.getBarbarian().Defense(target);
         //if() non cooldown
-        abilitiesManager.BarbarianUltimateAbility(damager, target);
+        abilitiesManager.getBarbarian().Ultimate(damager, target);
+        if (abilityUtils.isCounterAttackProc(50)){
+            abilitiesManager.getLegionCommander().Defense(target,damager,event.getDamage());
+        }
     }
     @EventHandler
-    public void onProjectileHit(EntityDamageByEntityEvent event){
+    public void onArrowHit(EntityDamageByEntityEvent event){
         if (event.getDamager().getType() != EntityType.ARROW) return;
         if (!(event.getEntity() instanceof Player)) return;
         Arrow arrow = (Arrow) event.getDamager();

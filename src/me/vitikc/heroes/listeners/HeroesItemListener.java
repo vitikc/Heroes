@@ -1,6 +1,6 @@
 package me.vitikc.heroes.listeners;
 
-import me.vitikc.heroes.Heroes;
+import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.HeroesManager;
 import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
 import me.vitikc.heroes.abilities.HeroesAbilityUtils;
@@ -14,12 +14,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
  * Created by Vitikc on 09/Jan/17.
  */
 public class HeroesItemListener implements Listener {
-    private Heroes plugin;
+    private HeroesMain plugin;
     private HeroesManager heroesManager;
     private HeroesAbilityUtils abilityUtils;
     private HeroesAbilitiesManager abilitiesManager;
 
-    public HeroesItemListener(Heroes plugin){
+    public HeroesItemListener(HeroesMain plugin){
         this.plugin = plugin;
         heroesManager = plugin.getHeroesManager();
         abilityUtils = plugin.getAbilityUtils();
@@ -31,6 +31,7 @@ public class HeroesItemListener implements Listener {
     private void onItemUseEvent(PlayerInteractEvent event){
         Player player = event.getPlayer();
         //if(!heroesManager.isSet(player)) return;
+        //switch heroes
         if(player.getInventory().getItemInMainHand().getType() == Material.STICK) {
             player.sendMessage("1");
             Player target = abilityUtils.getTargetPlayer(player);
@@ -39,9 +40,17 @@ public class HeroesItemListener implements Listener {
                 return;
             }
             target.sendMessage("you are target");
-            abilitiesManager.BarbarianAttackAbility(player, target);
+            abilitiesManager.getBarbarian().Attack(player, target);
         } else if(player.getInventory().getItemInMainHand().getType() == Material.DIAMOND){
-            abilitiesManager.LegionCommanderAttackAbility(player);
+            abilitiesManager.getLegionCommander().Attack(player);
+        } else if (player.getInventory().getItemInMainHand().getType() == Material.COAL){
+            Player target = abilityUtils.getTargetPlayer(player);
+            if (target == null) {
+                player.sendMessage("No players found");
+                return;
+            }
+            abilitiesManager.getLegionCommander().Ultimate(player, target);
+            player.sendMessage("DUEL START");
         }
     }
 }

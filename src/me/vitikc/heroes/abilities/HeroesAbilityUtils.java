@@ -1,7 +1,5 @@
 package me.vitikc.heroes.abilities;
 
-import me.vitikc.heroes.Heroes;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -63,6 +61,7 @@ public class HeroesAbilityUtils {
     public void setRegeneration(Player target, int duration){
         target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,duration*20,1));
     }
+
 
     public Player getTargetPlayer(Player player){
         for (Entity e : player.getNearbyEntities(3,3,3)){
