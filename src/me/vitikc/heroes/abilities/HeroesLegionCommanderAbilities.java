@@ -14,6 +14,8 @@ public class HeroesLegionCommanderAbilities {
     private HeroesMain plugin;
     private static HashSet<Player> duels;
 
+
+
     public HeroesLegionCommanderAbilities(HeroesMain plugin){
         this.plugin = plugin;
         duels = new HashSet<>();
@@ -26,7 +28,10 @@ public class HeroesLegionCommanderAbilities {
     public void Defense(Player player, Player target, double damage){
         double vampire = 0.5;
         double counterAttackScale = 0.4;
-        player.setHealth(player.getHealth()+damage*vampire);
+        player.sendMessage("Counter!");
+        target.sendMessage("Attacked by enemy defense ability");
+        if (player.getHealth()<20f&&player.getHealth()>0f)
+            player.setHealth(player.getHealth()+damage*vampire);
         target.damage(damage*counterAttackScale);
     }
     public void Ultimate(final Player player,final Player target){
