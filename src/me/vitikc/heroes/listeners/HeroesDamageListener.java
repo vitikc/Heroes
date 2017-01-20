@@ -32,7 +32,15 @@ public class HeroesDamageListener implements Listener {
         cooldownValues = plugin.getCooldownValues();
         heroesManager = plugin.getHeroesManager();
     }
-
+    @EventHandler
+    public void addPlayerDamage(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player)) return;
+        Player player = (Player) event.getDamager();
+        if (!abilitiesManager.getLegionCommander().isEarnedDamage(player)){
+            return;
+        }
+        event.setDamage(event.getDamage() + abilitiesManager.getLegionCommander().getDamage(player));
+    }
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event){
         if (!(event.getDamager() instanceof Player)) return;

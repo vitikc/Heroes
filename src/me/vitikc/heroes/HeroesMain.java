@@ -6,6 +6,7 @@ import me.vitikc.heroes.commands.HeroesCommandExecutor;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
 import me.vitikc.heroes.listeners.HeroesDamageListener;
+import me.vitikc.heroes.listeners.HeroesDeathListener;
 import me.vitikc.heroes.listeners.HeroesItemListener;
 import me.vitikc.heroes.listeners.HeroesPlayerMoveListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +31,7 @@ public class HeroesMain extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HeroesItemListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDamageListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesPlayerMoveListener(this),this);
+        getServer().getPluginManager().registerEvents(new HeroesDeathListener(this),this);
         getCommand("heroes").setExecutor(new HeroesCommandExecutor(this));
         getLogger().info("Plugin has been enabled.");
     }
