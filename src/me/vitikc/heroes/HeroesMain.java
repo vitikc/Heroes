@@ -3,6 +3,7 @@ package me.vitikc.heroes;
 import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
 import me.vitikc.heroes.abilities.HeroesAbilityUtils;
 import me.vitikc.heroes.commands.HeroesCommandExecutor;
+import me.vitikc.heroes.config.HeroesConfigManager;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
 import me.vitikc.heroes.listeners.HeroesDamageListener;
@@ -20,14 +21,16 @@ public class HeroesMain extends JavaPlugin {
     private HeroesAbilitiesManager abilitiesManager;
     private HeroesCooldown cooldown;
     private HeroesCooldownValues cooldownValues;
+    private HeroesConfigManager configManager;
 
     @Override
     public void onEnable() {
+        configManager = new HeroesConfigManager(this);
         heroesManager = new HeroesManager();
         cooldown = new HeroesCooldown();
-        cooldownValues = new HeroesCooldownValues();
         abilityUtils = new HeroesAbilityUtils();
         abilitiesManager = new HeroesAbilitiesManager(this);
+        cooldownValues = new HeroesCooldownValues(this);
         getServer().getPluginManager().registerEvents(new HeroesItemListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDamageListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesPlayerMoveListener(this),this);
@@ -59,5 +62,9 @@ public class HeroesMain extends JavaPlugin {
 
     public HeroesCooldownValues getCooldownValues(){
         return cooldownValues;
+    }
+
+    public HeroesConfigManager getConfigManager(){
+        return configManager;
     }
 }

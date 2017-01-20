@@ -6,3 +6,4 @@ package me.vitikc.heroes;
 public enum  HeroTypes {
     BARBARIAN,LEGION_COMMANDER
 }
+

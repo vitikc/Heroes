@@ -16,6 +16,8 @@ import java.util.Set;
  * Created by Vitikc on 09/Jan/17.
  */
 public class HeroesAbilityUtils {
+
+
     private boolean isLookingAtPlayer(Player player, Player target)
     {
         Location eye = player.getEyeLocation();
