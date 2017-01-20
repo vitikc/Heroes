@@ -40,10 +40,13 @@ public class HeroesAbilityUtils {
 
         return (b1||b2||b3||b4);
     }
+    private int getRandom(int max , int min) {
+        int ii = -min + (int) (Math.random() * ((max - (-min)) + 1));
+        return ii;
+    }
     public void spawnArrow(Player owner){
         Location location = owner.getTargetBlock((Set<Material>) null,10).getLocation();
-        Random random = new Random();
-        location.add(random.nextInt(6),10,random.nextInt(5));
+        location.add(getRandom(3,1),10,getRandom(3,1));
         Vector direction = new Vector(0,-1,0);
         Arrow arrow = owner.getWorld().spawnArrow(location,direction,5.0f,0f);
         arrow.setCustomName(owner.getDisplayName());

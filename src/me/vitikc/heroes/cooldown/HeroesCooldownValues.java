@@ -20,7 +20,7 @@ public class HeroesCooldownValues {
     public final String legionCommanderAttack = "legioncommanderattack";
     public final String legionCommanderDefense = "legioncommanderdefense";
     public final String legionCommanderUltimate = "legioncommanderultimate";
-    private int legionCommanderAttackCooldown = 30*SECONDS;
+    private int legionCommanderAttackCooldown = 1*SECONDS;
     private int legionCommanderDefenseCooldown = 1*SECONDS;
     private int legionCommanderUltimateCooldown = 40*SECONDS;
 

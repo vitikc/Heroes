@@ -21,11 +21,6 @@ public class HeroesLegionCommanderAbilities {
         damageEarned = new HashMap<>();
         duels = new Hashtable<>();
     }
-
-    public void Attack(Player player){
-        for (int i = 0; i< 20; i++)
-            plugin.getAbilityUtils().spawnArrow(player);
-    }
     public void addDamage(Player player){
         if (damageEarned.get(player)==null){
             damageEarned.put(player,0.5f);
@@ -43,6 +38,11 @@ public class HeroesLegionCommanderAbilities {
     public float getDamage(Player player){
         return damageEarned.get(player) != null ? damageEarned.get(player) : 0;
     }
+    public void Attack(Player player){
+        for (int i = 0; i< 20; i++)
+            plugin.getAbilityUtils().spawnArrow(player);
+    }
+
     public void Defense(Player player, Player target, double damage){
         double vampire = 0.5;
         double counterAttackScale = 0.4;
