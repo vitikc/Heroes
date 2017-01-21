@@ -17,13 +17,26 @@ public class HeroesLegionCommanderAbilities {
     private HeroesMain plugin;
     private HeroesConfigManager config;
 
-    private double damagePerDuel = 0.5f;
-    private double vampireScale = 0.3d;
-    private double counterAttackScale = 0.3d;
-    private double maximumDuelDamage = 5f;
+    private enum dValues{
+        DAMAGEPERDUEL(0.5),
+        VAMPIRESCALE(0.3),
+        COUNTERATTACKSCALE(0.3),
+        MAXDUELDAMAGE(5.0);
 
-    private int maximumArrows = 20;
-    private int duelTime = 5;
+        private double value;
+        dValues(double value){
+            this.value = value;
+        }
+    }
+    private enum iValues{
+        MAXARROWS(20),
+        DUELTIME(5);
+
+        private int value;
+        iValues(int value){
+            this.value = value;
+        }
+    }
 
     private static Hashtable<Player, Player> duels;
     private static HashMap<Player, Double> damageEarned;
@@ -33,54 +46,60 @@ public class HeroesLegionCommanderAbilities {
         config = plugin.getConfigManager();
         damageEarned = new HashMap<>();
         duels = new Hashtable<>();
-        setDefaultConfig();
+
         loadFromConfig();
+        setDefaultConfig();
     }
 
     public void loadFromConfig(){
         String lc = "LegionCommander";
-        if (config.getConfig().isSet(lc)){
-            damagePerDuel = config.getDouble(lc, "damageperduel");
-            vampireScale = config.getDouble(lc, "vampirescale");
-            counterAttackScale = config.getDouble(lc, "counterattackscale");
-            maximumDuelDamage = config.getDouble(lc, "maximumdueldamage");
-            maximumArrows = config.getInt(lc, "maximumarrows");
-            duelTime = config.getInt(lc, "dueltime");
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(lc + "." + name))
+                dValues.values()[i].value = config.getDouble(lc, name);
+        }
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(lc + "." + name))
+                iValues.values()[i].value = config.getInt(lc, name);
         }
     }
     public void setDefaultConfig(){
         String lc = "LegionCommander";
-        if (config.getConfig().isSet(lc)){
-            return;
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(!config.getConfig().isSet(lc + "." + name)){
+                config.setDouble(lc, name, dValues.values()[i].value);
+            }
         }
-        config.setDouble(lc, "damageperduel", damagePerDuel);
-        config.setDouble(lc, "vampirescale", vampireScale);
-        config.setDouble(lc, "counterattackscale", counterAttackScale);
-        config.setDouble(lc, "maximumdueldamage", maximumDuelDamage);
-        config.setInt(lc, "maximumarrows", maximumArrows);
-        config.setInt(lc, "dueltime", duelTime);
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(!config.getConfig().isSet(lc + "." + name)){
+                config.setInt(lc, name, iValues.values()[i].value);
+            }
+        }
         config.saveConfig();
     }
 
     public void addDamage(Player player){
         if (damageEarned.get(player)==null){
-            damageEarned.put(player,damagePerDuel);
+            damageEarned.put(player,dValues.DAMAGEPERDUEL.value);
         }
-        if (damageEarned.get(player)>=maximumDuelDamage){
+        if (damageEarned.get(player)>=dValues.MAXDUELDAMAGE.value){
             player.sendMessage("Maximum damage");
             return;
         }
-        damageEarned.put(player,damageEarned.get(player) + damagePerDuel);
+        damageEarned.put(player,damageEarned.get(player) + dValues.DAMAGEPERDUEL.value);
     }
     public void setDamage(Player player, double damage){
-        if (damage >= maximumDuelDamage) damage = maximumDuelDamage;
+        if (damage >= dValues.MAXDUELDAMAGE.value) damage = dValues.MAXDUELDAMAGE.value;
         damageEarned.put(player, damage);
     }
     public double getDamage(Player player){
         return damageEarned.get(player) != null ? damageEarned.get(player) : 0;
     }
     public void Attack(Player player){
-        for (int i = 0; i< maximumArrows; i++)
+        for (int i = 0; i< iValues.MAXARROWS.value; i++)
             plugin.getAbilityUtils().spawnArrow(player);
     }
 
@@ -88,8 +107,8 @@ public class HeroesLegionCommanderAbilities {
         player.sendMessage("Counter!");
         target.sendMessage("Attacked by enemy defense ability");
         if (player.getHealth()<20f&&player.getHealth()>0f)
-            player.setHealth(player.getHealth()+damage*vampireScale);
-        target.damage(damage*counterAttackScale);
+            player.setHealth(player.getHealth()+damage*dValues.VAMPIRESCALE.value);
+        target.damage(damage*dValues.COUNTERATTACKSCALE.value);
     }
     public void Ultimate(final Player player,final Player target){
         duels.put(player, target);
@@ -103,7 +122,7 @@ public class HeroesLegionCommanderAbilities {
                 player.sendMessage("DUEL ENDED");
                 target.sendMessage("DUEL ENDED");
             }
-        }.runTaskLater(this.plugin, 20L * duelTime);
+        }.runTaskLater(this.plugin, 20L * iValues.DUELTIME.value);
     }
     public boolean isEarnedDamage(Player player){
         if (damageEarned.containsKey(player)){

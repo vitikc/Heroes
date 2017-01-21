@@ -56,18 +56,16 @@ public class HeroesConfigManager {
 
     }
 
-    public int getInt(String hero, String name){
-        return config.getInt(hero + "." + name);
+    public int getInt(String arg1, String arg2){
+        return config.getInt(arg1 + "." + arg2);
     }
-    public void setInt(String hero, String name, int value){
-        config.set(hero + "." + name, value);
-        saveConfig();
+    public void setInt(String arg1, String arg2, int value){
+        config.set(arg1 + "." + arg2, value);
     }
-    public double getDouble(String hero, String name){
-        return config.getDouble(hero + "." + name);
+    public double getDouble(String arg1, String arg2){
+        return config.getDouble(arg1 + "." + arg2);
     }
-    public void setDouble(String hero, String name, double value){
-        config.set(hero + "." + name, value);
-        saveConfig();
+    public void setDouble(String arg1, String arg2, double value){
+        config.set(arg1 + "." + arg2, value);
     }
 }

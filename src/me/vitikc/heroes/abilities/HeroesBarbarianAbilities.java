@@ -16,42 +16,59 @@ public class HeroesBarbarianAbilities {
     private HeroesCooldownValues cooldownValues;
     private HeroesConfigManager config;
 
-    private int speedDuration = 5;
-    private int poisonDuration = 5;
-    private int slowDuration = 5;
-    private int defenseRange = 3;
+    private enum dValues{
+        DEFENSEDAMAGE(2),
+        ULTIMATETHRESHOLD(6),
+        ULTIMATEMINDAMAGE(2),
+        ULTIMATEMAXDAMAGE(20);
 
-    private double defenseDamage = 2;
-    private double ultimateThreshold = 6;
-    private double ultimateMinDamage = 2;
-    private double ultimateMaxDamage = 20;
+        private double value;
+        dValues(double value){
+            this.value = value;
+        }
+    }
+    private enum iValues{
+        SPEEDDURATION(5),
+        SLOWDURATION(5),
+        POISONDURATION(5),
+        DEFENSERANGE(3);
+
+        private int value;
+        iValues(int value){
+            this.value = value;
+        }
+    }
 
     public HeroesBarbarianAbilities(HeroesMain plugin){
         this.plugin = plugin;
         cooldown = plugin.getCooldown();
         cooldownValues = plugin.getCooldownValues();
         config = plugin.getConfigManager();
-        setDefaultConfig();
         loadFromConfig();
+        setDefaultConfig();
     }
 
     public void Attack(Player player, Player target) {
-        plugin.getAbilityUtils().setSpeed(player, speedDuration);
-        plugin.getAbilityUtils().setPoison(target, poisonDuration);
-        plugin.getAbilityUtils().setSlow(target, slowDuration);
+        plugin.getAbilityUtils().setSpeed(player, iValues.SPEEDDURATION.value);
+        plugin.getAbilityUtils().setPoison(target, iValues.POISONDURATION.value);
+        plugin.getAbilityUtils().setSlow(target, iValues.SLOWDURATION.value);
     }
 
     public void Defense(Player player){
-        for (Entity e : player.getNearbyEntities(defenseRange,defenseRange,defenseRange)){
+        for (Entity e : player.getNearbyEntities(
+                iValues.DEFENSERANGE.value,
+                iValues.DEFENSERANGE.value,
+                iValues.DEFENSERANGE.value)
+                ){
             if (!(e instanceof Player)) continue;
             Player p = (Player) e;
-            p.damage(defenseDamage);
+            p.damage(dValues.DEFENSEDAMAGE.value);
             p.sendMessage("You damaged by defense ability");
         }
     }
     public void Ultimate(Player player, Player target){
-        if (target.getHealth() <= ultimateThreshold){
-            target.damage(ultimateMaxDamage);
+        if (target.getHealth() <= dValues.ULTIMATETHRESHOLD.value){
+            target.damage(dValues.ULTIMATEMAXDAMAGE.value);
 
             plugin.getServer().broadcastMessage(target.getDisplayName() +
                     " killed by " +
@@ -60,37 +77,38 @@ public class HeroesBarbarianAbilities {
             return;
         } else {
             cooldown.setCooldown(player,
-                    cooldownValues.barbarianUltimate,
-                    cooldownValues.getValues().get(cooldownValues.barbarianUltimate));
-            target.damage(ultimateMinDamage);
+                    HeroesCooldownValues.CooldownsValues.BARBARIANULTIMATE.toString(),
+                    HeroesCooldownValues.CooldownsValues.BARBARIANULTIMATE.get());
+            target.damage(dValues.ULTIMATEMINDAMAGE.value);
         }
     }
     public void loadFromConfig(){
         String ba = "Barbarian";
-        if (config.getConfig().isSet(ba)){
-            speedDuration = config.getInt(ba, "speedduration");
-            poisonDuration = config.getInt(ba, "poisonduration");
-            slowDuration = config.getInt(ba, "slowduration");
-            defenseRange = config.getInt(ba, "defenserange");
-            defenseDamage = config.getDouble(ba, "defensedamage");
-            ultimateThreshold = config.getDouble(ba, "ultimatethreshold");
-            ultimateMinDamage = config.getDouble(ba, "ultimateMinDamage");
-            ultimateMaxDamage = config.getDouble(ba, "ultimateMaxDamage");
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(ba + "." + name))
+                dValues.values()[i].value = config.getDouble(ba, name);
+        }
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(ba + "." + name))
+                iValues.values()[i].value = config.getInt(ba, name);
         }
     }
-    public void setDefaultConfig(){
+    public void setDefaultConfig() {
         String ba = "Barbarian";
-        if (config.getConfig().isSet(ba)){
-            return;
+        for (int i = 0; i < dValues.values().length; i++) {
+            String name = dValues.values()[i].toString().toLowerCase();
+            if (!config.getConfig().isSet(ba + "." + name)) {
+                config.setDouble(ba, name, dValues.values()[i].value);
+            }
         }
-        config.setInt(ba, "speedduration",speedDuration);
-        config.setInt(ba, "poisonduration",poisonDuration);
-        config.setInt(ba, "slowduration",slowDuration);
-        config.setInt(ba, "defenserange",defenseRange);
-        config.setDouble(ba,"defensedamage",defenseDamage);
-        config.setDouble(ba,"ultimatethreshold",ultimateThreshold);
-        config.setDouble(ba,"ultimateMinDamage",ultimateMinDamage);
-        config.setDouble(ba,"ultimateMaxDamage",ultimateMaxDamage);
+        for (int i = 0; i < iValues.values().length; i++) {
+            String name = iValues.values()[i].toString().toLowerCase();
+            if (!config.getConfig().isSet(ba + "." + name)) {
+                config.setInt(ba, name, iValues.values()[i].value);
+            }
+        }
         config.saveConfig();
     }
 }

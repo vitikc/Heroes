@@ -51,13 +51,18 @@ public class HeroesItemListener implements Listener {
                 break;
             case LEGION_COMMANDER:
                 if(player.getInventory().getItemInMainHand().getType() == Material.DIAMOND){
-                    if (cooldown.getCooldown(player,cooldownValues.legionCommanderAttack)<=0) {
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERATTACK.toString())<=0) {
                         abilitiesManager.getLegionCommander().Attack(player);
-                        cooldown.putCooldown(player,cooldownValues.legionCommanderAttack,
-                                cooldownValues.getValues().get(cooldownValues.legionCommanderAttack));
+                        cooldown.putCooldown(player,
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERATTACK.toString(),
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERATTACK.get());
                     } else {
-                        player.sendMessage("Cooldown "
-                                + cooldown.getCooldown(player,cooldownValues.legionCommanderAttack)/cooldownValues.SECONDS);
+                        player.sendMessage("Cooldown " +
+                            cooldown.getCooldown(player,
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERATTACK.toString())/
+                            cooldownValues.SECONDS
+                        );
                     }
                 }
                 break;
@@ -81,39 +86,46 @@ public class HeroesItemListener implements Listener {
         switch (type){
             case BARBARIAN:
                 if (player.getInventory().getItemInMainHand().getType() == Material.STICK){
-                    if (cooldown.getCooldown(player, cooldownValues.barbarianAttack)<=0) {
+                    if (cooldown.getCooldown(
+                            player,
+                            HeroesCooldownValues.CooldownsValues.BARBARIANATTACK.toString())<=0) {
                         abilitiesManager.getBarbarian().Attack(player, target);
                         cooldown.putCooldown(player,
-                                cooldownValues.barbarianAttack,
-                                cooldownValues.getValues().get(cooldownValues.barbarianAttack));
+                                HeroesCooldownValues.CooldownsValues.BARBARIANATTACK.toString(),
+                                HeroesCooldownValues.CooldownsValues.BARBARIANATTACK.get());
                     } else {
                         player.sendMessage("Cooldown " +
                                 cooldown.getCooldown(player,
-                                        cooldownValues.barbarianAttack)/cooldownValues.SECONDS);
+                                    HeroesCooldownValues.CooldownsValues.BARBARIANATTACK.toString())/
+                                    cooldownValues.SECONDS);
                     }
                 } else if (player.getInventory().getItemInMainHand().getType() == Material.EMERALD){
-                    if (cooldown.getCooldown(player,cooldownValues.barbarianUltimate)<=0)
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.CooldownsValues.BARBARIANULTIMATE.toString())<=0)
                         abilitiesManager.getBarbarian().Ultimate(player, target);
                     else
                         player.sendMessage("Cooldown " +
                                 cooldown.getCooldown(player,
-                                        cooldownValues.barbarianUltimate)/cooldownValues.SECONDS);
+                                        HeroesCooldownValues.CooldownsValues.BARBARIANULTIMATE.toString())/
+                                        cooldownValues.SECONDS);
                 }
                 break;
             case LEGION_COMMANDER:
                 if (player.getInventory().getItemInMainHand().getType() == Material.COAL){
                     if (abilitiesManager.getLegionCommander().isPlayerInDuel(player))
                         return;
-                    if (cooldown.getCooldown(player, cooldownValues.legionCommanderUltimate)<=0) {
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERULTIMATE.toString())<=0) {
                         abilitiesManager.getLegionCommander().Ultimate(player, target);
                         cooldown.putCooldown(player,
-                                cooldownValues.legionCommanderUltimate,
-                                cooldownValues.getValues().get(cooldownValues.legionCommanderUltimate));
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERULTIMATE.toString(),
+                            HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERULTIMATE.get());
                     }
                     else
                         player.sendMessage("Cooldown " +
-                                cooldown.getCooldown(player,
-                                        cooldownValues.legionCommanderUltimate)/cooldownValues.SECONDS);
+                            cooldown.getCooldown(player,
+                                HeroesCooldownValues.CooldownsValues.LEGIONCOMMANDERULTIMATE.toString())/
+                                cooldownValues.SECONDS);
                 }
                 break;
             default:
