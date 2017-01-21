@@ -16,12 +16,12 @@ public class HeroesCooldownValues {
     public final int SECONDS = 1000;
 
     public enum CooldownsValues{
-        BARBARIANATTACK(30),
-        BARBARIANDEFENSE(1),
-        BARBARIANULTIMATE(30),
-        LEGIONCOMMANDERATTACK(1),
-        LEGIONCOMMANDERDEFENSE(1),
-        LEGIONCOMMANDERULTIMATE(40);
+        BARBARIANATTACK(30000),
+        BARBARIANDEFENSE(1000),
+        BARBARIANULTIMATE(30000),
+        LEGIONCOMMANDERATTACK(1000),
+        LEGIONCOMMANDERDEFENSE(1000),
+        LEGIONCOMMANDERULTIMATE(40000);
         private int value;
         CooldownsValues(int value){
             this.value = value;
