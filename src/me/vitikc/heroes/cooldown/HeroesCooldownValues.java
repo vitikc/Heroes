@@ -3,9 +3,6 @@ package me.vitikc.heroes.cooldown;
 import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.config.HeroesConfigManager;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by Vitikc on 19/Jan/17.
  */
@@ -15,7 +12,7 @@ public class HeroesCooldownValues {
 
     public final int SECONDS = 1000;
 
-    public enum CooldownsValues{
+    public enum Values {
         BARBARIANATTACK(30000),
         BARBARIANDEFENSE(1000),
         BARBARIANULTIMATE(30000),
@@ -23,7 +20,7 @@ public class HeroesCooldownValues {
         LEGIONCOMMANDERDEFENSE(1000),
         LEGIONCOMMANDERULTIMATE(40000);
         private int value;
-        CooldownsValues(int value){
+        Values(int value){
             this.value = value;
         }
         public int get(){
@@ -39,18 +36,18 @@ public class HeroesCooldownValues {
 
     public void loadFromConfig(){
         String cd = "cooldowns";
-        for (int i = 0; i < CooldownsValues.values().length; i++){
-            String name = CooldownsValues.values()[i].toString().toLowerCase();
+        for (int i = 0; i < Values.values().length; i++){
+            String name = Values.values()[i].toString().toLowerCase();
             if(config.getConfig().isSet(cd + "." + name))
-                CooldownsValues.values()[i].value = config.getInt(cd, name)*SECONDS;
+                Values.values()[i].value = config.getInt(cd, name)*SECONDS;
         }
     }
     public void setDefaultConfig(){
         String cd = "cooldowns";
-        for (int i = 0; i < CooldownsValues.values().length; i++){
-            String name = CooldownsValues.values()[i].toString().toLowerCase();
+        for (int i = 0; i < Values.values().length; i++){
+            String name = Values.values()[i].toString().toLowerCase();
             if(!config.getConfig().isSet(cd + "." + name)){
-                config.setInt(cd, name, CooldownsValues.values()[i].value/SECONDS);
+                config.setInt(cd, name, Values.values()[i].value/SECONDS);
             }
         }
         config.saveConfig();

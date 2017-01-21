@@ -77,8 +77,8 @@ public class HeroesBarbarianAbilities {
             return;
         } else {
             cooldown.setCooldown(player,
-                    HeroesCooldownValues.CooldownsValues.BARBARIANULTIMATE.toString(),
-                    HeroesCooldownValues.CooldownsValues.BARBARIANULTIMATE.get());
+                    HeroesCooldownValues.Values.BARBARIANULTIMATE.toString(),
+                    HeroesCooldownValues.Values.BARBARIANULTIMATE.get());
             target.damage(dValues.ULTIMATEMINDAMAGE.value);
         }
     }
