@@ -66,6 +66,25 @@ public class HeroesItemListener implements Listener {
                     }
                 }
                 break;
+            case YURNERO:
+                if (player.getInventory().getItemInMainHand().getType() == Material.COAL){
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.YURNEROATTACK.toString())<=0){
+                        abilitiesManager.getYurnero().Attack(player);
+                        player.sendMessage("Attackink");
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.YURNEROATTACK.toString(),
+                                HeroesCooldownValues.Values.YURNEROATTACK.get());
+                    }
+                    else {
+                        player.sendMessage("Cooldown " +
+                                cooldown.getCooldown(player,
+                                        HeroesCooldownValues.Values.YURNEROATTACK.toString())/
+                                        cooldownValues.SECONDS
+                        );
+                    }
+                }
+                break;
             default:
                 break;
         }
@@ -126,6 +145,25 @@ public class HeroesItemListener implements Listener {
                             cooldown.getCooldown(player,
                                 HeroesCooldownValues.Values.LEGIONCOMMANDERULTIMATE.toString())/
                                 cooldownValues.SECONDS);
+                }
+                break;
+            case YURNERO:
+                if (player.getInventory().getItemInMainHand().getType() == Material.STICK){
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.YURNEROULTIMATE.toString())<=0){
+                        abilitiesManager.getYurnero().Ultimate(player,target);
+                        player.sendMessage("Ultimating");
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.YURNEROULTIMATE.toString(),
+                                HeroesCooldownValues.Values.YURNEROULTIMATE.get());
+                    }
+                    else {
+                        player.sendMessage("Cooldown " +
+                                cooldown.getCooldown(player,
+                                        HeroesCooldownValues.Values.YURNEROULTIMATE.toString())/
+                                        cooldownValues.SECONDS
+                        );
+                    }
                 }
                 break;
             default:

@@ -7,6 +7,8 @@ import java.util.HashMap;
 /**
  * Created by Vitikc on 09/Jan/17.
  */
+
+// TODO: 21/Jan/17 Saving player heroes too config file; 
 public class HeroesManager {
     private static HashMap<String, HeroTypes> playersHeroes = new HashMap<>();
 

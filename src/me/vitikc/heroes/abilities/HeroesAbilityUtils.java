@@ -77,7 +77,7 @@ public class HeroesAbilityUtils {
         }
         return null;
     }
-    public boolean isCounterAttackProc(int chance){
+    public boolean isChanceProc(int chance){
         double r = Math.random();
         if (r*100 <= chance) return true;
         return false;

@@ -18,7 +18,9 @@ public class HeroesCooldownValues {
         BARBARIANULTIMATE(30000),
         LEGIONCOMMANDERATTACK(1000),
         LEGIONCOMMANDERDEFENSE(1000),
-        LEGIONCOMMANDERULTIMATE(40000);
+        LEGIONCOMMANDERULTIMATE(40000),
+        YURNEROATTACK(30000),
+        YURNEROULTIMATE(60000);
         private int value;
         Values(int value){
             this.value = value;

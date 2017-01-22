@@ -42,7 +42,7 @@ public class HeroesDamageListener implements Listener {
         event.setDamage(event.getDamage() + abilitiesManager.getLegionCommander().getDamage(player));
     }
     @EventHandler
-    public void onPlayerDamage(EntityDamageByEntityEvent event){
+    public void onPlayerGetDamage(EntityDamageByEntityEvent event){
         if (!(event.getDamager() instanceof Player)) return;
         if (!(event.getEntity() instanceof Player)) return;
         Player damager = (Player) event.getDamager();
@@ -52,18 +52,42 @@ public class HeroesDamageListener implements Listener {
         HeroTypes type = heroesManager.getPlayerHero(target);
         switch (type){
             case BARBARIAN:
-                if (abilityUtils.isCounterAttackProc(30))
+                if (abilityUtils.isChanceProc(30))
                     abilitiesManager.getBarbarian().Defense(target);
                 break;
             case LEGION_COMMANDER:
-                if (abilityUtils.isCounterAttackProc(50)){
+                if (abilityUtils.isChanceProc(50)){
                     abilitiesManager.getLegionCommander().Defense(target,damager,event.getDamage());
                 }
+                break;
+            case YURNERO:
                 break;
             default:
                 break;
         }
 
+    }
+    @EventHandler
+    public void onPlayerDoDamage(EntityDamageByEntityEvent event){
+        if (!(event.getDamager() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
+        Player damager = (Player) event.getDamager();
+        Player target = (Player) event.getEntity();
+        if (!heroesManager.isSet(damager))
+            return;
+        HeroTypes type = heroesManager.getPlayerHero(damager);
+        switch (type){
+            case BARBARIAN:
+                break;
+            case LEGION_COMMANDER:
+                break;
+            case YURNERO:
+                if (abilityUtils.isChanceProc(15))
+                    abilitiesManager.getYurnero().Passive(damager,target,event.getDamage());
+                break;
+            default:
+                break;
+        }
     }
     @EventHandler
     public void onArrowHit(EntityDamageByEntityEvent event){

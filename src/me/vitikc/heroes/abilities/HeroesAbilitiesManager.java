@@ -9,10 +9,12 @@ public class HeroesAbilitiesManager {
     private HeroesMain plugin;
     private HeroesBarbarianAbilities barbarian;
     private HeroesLegionCommanderAbilities legionCommander;
+    private HeroesYurneroAbilities yurnero;
     public HeroesAbilitiesManager(HeroesMain plugin) {
         this.plugin = plugin;
         barbarian = new HeroesBarbarianAbilities(plugin);
         legionCommander = new HeroesLegionCommanderAbilities(plugin);
+        yurnero = new HeroesYurneroAbilities(plugin);
     }
 
     public HeroesBarbarianAbilities getBarbarian() {
@@ -21,5 +23,9 @@ public class HeroesAbilitiesManager {
 
     public HeroesLegionCommanderAbilities getLegionCommander() {
         return legionCommander;
+    }
+
+    public HeroesYurneroAbilities getYurnero(){
+        return yurnero;
     }
 }

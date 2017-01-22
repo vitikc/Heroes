@@ -51,36 +51,6 @@ public class HeroesLegionCommanderAbilities {
         setDefaultConfig();
     }
 
-    public void loadFromConfig(){
-        String lc = "LegionCommander";
-        for (int i = 0; i < dValues.values().length; i++){
-            String name = dValues.values()[i].toString().toLowerCase();
-            if(config.getConfig().isSet(lc + "." + name))
-                dValues.values()[i].value = config.getDouble(lc, name);
-        }
-        for (int i = 0; i < iValues.values().length; i++){
-            String name = iValues.values()[i].toString().toLowerCase();
-            if(config.getConfig().isSet(lc + "." + name))
-                iValues.values()[i].value = config.getInt(lc, name);
-        }
-    }
-    public void setDefaultConfig(){
-        String lc = "LegionCommander";
-        for (int i = 0; i < dValues.values().length; i++){
-            String name = dValues.values()[i].toString().toLowerCase();
-            if(!config.getConfig().isSet(lc + "." + name)){
-                config.setDouble(lc, name, dValues.values()[i].value);
-            }
-        }
-        for (int i = 0; i < iValues.values().length; i++){
-            String name = iValues.values()[i].toString().toLowerCase();
-            if(!config.getConfig().isSet(lc + "." + name)){
-                config.setInt(lc, name, iValues.values()[i].value);
-            }
-        }
-        config.saveConfig();
-    }
-
     public void addDamage(Player player){
         if (damageEarned.get(player)==null){
             damageEarned.put(player,dValues.DAMAGEPERDUEL.value);
@@ -139,5 +109,34 @@ public class HeroesLegionCommanderAbilities {
 
     public static Hashtable<Player, Player> getDuels() {
         return duels;
+    }
+    public void loadFromConfig(){
+        String lc = "LegionCommander";
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(lc + "." + name))
+                dValues.values()[i].value = config.getDouble(lc, name);
+        }
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(lc + "." + name))
+                iValues.values()[i].value = config.getInt(lc, name);
+        }
+    }
+    public void setDefaultConfig(){
+        String lc = "LegionCommander";
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(!config.getConfig().isSet(lc + "." + name)){
+                config.setDouble(lc, name, dValues.values()[i].value);
+            }
+        }
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(!config.getConfig().isSet(lc + "." + name)){
+                config.setInt(lc, name, iValues.values()[i].value);
+            }
+        }
+        config.saveConfig();
     }
 }
