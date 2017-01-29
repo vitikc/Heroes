@@ -6,6 +6,7 @@ import me.vitikc.heroes.commands.HeroesCommandExecutor;
 import me.vitikc.heroes.config.HeroesConfigManager;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
+import me.vitikc.heroes.entity.HeroesCustomEntities;
 import me.vitikc.heroes.listeners.HeroesDamageListener;
 import me.vitikc.heroes.listeners.HeroesDeathListener;
 import me.vitikc.heroes.listeners.HeroesItemListener;
@@ -31,16 +32,21 @@ public class HeroesMain extends JavaPlugin {
         abilityUtils = new HeroesAbilityUtils();
         abilitiesManager = new HeroesAbilitiesManager(this);
         cooldownValues = new HeroesCooldownValues(this);
+
         getServer().getPluginManager().registerEvents(new HeroesItemListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDamageListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesPlayerMoveListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDeathListener(this),this);
+
         getCommand("heroes").setExecutor(new HeroesCommandExecutor(this));
+
+        HeroesCustomEntities.registerEntities();
         getLogger().info("Plugin has been enabled.");
     }
 
     @Override
     public void onDisable() {
+        HeroesCustomEntities.unregisterEntities();
         getLogger().info("Plugin has been disabled.");
     }
 
