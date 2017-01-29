@@ -20,6 +20,7 @@ public class HeroesCooldownValues {
         LEGIONCOMMANDERDEFENSE(1000),
         LEGIONCOMMANDERULTIMATE(40000),
         YURNEROATTACK(30000),
+        YURNERODEFENSE(30000),
         YURNEROULTIMATE(60000);
         private int value;
         Values(int value){

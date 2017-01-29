@@ -2,10 +2,14 @@ package me.vitikc.heroes.abilities;
 
 import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.config.HeroesConfigManager;
+import me.vitikc.heroes.entity.HeroesEntityFollow;
+import me.vitikc.heroes.entity.HeroesHealingWard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -22,6 +26,7 @@ public class HeroesYurneroAbilities {
     private enum iValues{
         ATTACKRANGE(5),
         ATTACKDURATION(5),
+        DEFENSEDURATION(5),
         ULTIMATEATTACKS(9),
         ULTIMATERADIUS(5);
 
@@ -81,7 +86,26 @@ public class HeroesYurneroAbilities {
         player.sendMessage("Critical hit!");
         target.damage(damage); //Target is already damaged, so we just damage it by same damage to get x2 damage
     }
-    //public void Defense(){}
+    public void Defense(final Player player){
+        final Location loc = player.getLocation();
+        final HeroesHealingWard healingWard = new HeroesHealingWard(((CraftWorld)player.getWorld()).getHandle(), player.getUniqueId());
+        healingWard.setPositionRotation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+        ((CraftWorld)loc.getWorld()).getHandle().addEntity(healingWard, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        final  int id = new BukkitRunnable(){
+            @Override
+            public void run() {
+
+            }
+        }.runTaskTimer(plugin,
+                0L,
+                20L*iValues.DEFENSEDURATION.value).getTaskId();
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                ((CraftWorld)loc.getWorld()).getHandle().removeEntity(healingWard);
+            }
+        }.runTaskLater(plugin, 20L*iValues.DEFENSEDURATION.value);
+    }
     public void Ultimate(final Player player, Player target){
         final Location savedLoc = player.getLocation();
         int attacks = iValues.ULTIMATEATTACKS.value;

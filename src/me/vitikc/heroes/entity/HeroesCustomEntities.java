@@ -1,9 +1,6 @@
 package me.vitikc.heroes.entity;
 
-import net.minecraft.server.v1_11_R1.EntityChicken;
-import net.minecraft.server.v1_11_R1.EntityTypes;
-import net.minecraft.server.v1_11_R1.MinecraftKey;
-import net.minecraft.server.v1_11_R1.RegistryMaterials;
+import net.minecraft.server.v1_11_R1.*;
 import org.bukkit.entity.EntityType;
 
 import java.lang.reflect.Field;

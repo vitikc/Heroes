@@ -2,10 +2,13 @@ package me.vitikc.heroes.listeners;
 
 import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
+import me.vitikc.heroes.entity.HeroesCustomEntities;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -47,6 +50,16 @@ public class HeroesDeathListener implements Listener {
         } else if (abilitiesManager.getLegionCommander().getDuels().containsValue(player)){
             abilitiesManager.getLegionCommander().addDamage(getKeyByValue(player));
             getKeyByValue(player).sendMessage("You win duel!");
+        }
+    }
+    @EventHandler
+    public void onWardDeath(EntityDeathEvent event){
+        if (event.getEntity().getCustomName() == null){
+            return;
+        }
+        if (event.getEntity().getCustomName().equalsIgnoreCase("healing ward")){
+            event.getEntity().remove();
+            event.getDrops().removeAll(event.getDrops());
         }
     }
 }

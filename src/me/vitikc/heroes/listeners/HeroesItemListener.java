@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.MainHand;
 
 /**
  * Created by Vitikc on 09/Jan/17.
@@ -40,6 +41,9 @@ public class HeroesItemListener implements Listener {
     @EventHandler
     private void onItemUseEvent(PlayerInteractEvent event){
         Player player = event.getPlayer();
+        if (!event.getHand().equals(EquipmentSlot.HAND)){
+            return;
+        }
         if(!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)){
             return;
         }
@@ -80,6 +84,21 @@ public class HeroesItemListener implements Listener {
                         player.sendMessage("Cooldown " +
                                 cooldown.getCooldown(player,
                                         HeroesCooldownValues.Values.YURNEROATTACK.toString())/
+                                        cooldownValues.SECONDS
+                        );
+                    }
+                } else if (player.getInventory().getItemInMainHand().getType() == Material.EMERALD){
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.YURNERODEFENSE.toString())<=0){
+                        abilitiesManager.getYurnero().Defense(player);
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.YURNERODEFENSE.toString(),
+                                HeroesCooldownValues.Values.YURNERODEFENSE.get());
+                    }
+                    else {
+                        player.sendMessage("Cooldown " +
+                                cooldown.getCooldown(player,
+                                        HeroesCooldownValues.Values.YURNERODEFENSE.toString()) /
                                         cooldownValues.SECONDS
                         );
                     }

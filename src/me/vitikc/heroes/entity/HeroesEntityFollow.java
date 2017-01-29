@@ -9,28 +9,39 @@ public class HeroesEntityFollow extends PathfinderGoal {
 
     private double speed;
 
-    private EntityInsentient entity;
+    private HeroesHealingWard ward;
 
-    private Location loc;
 
     private NavigationAbstract navigation;
 
-    public HeroesEntityFollow(EntityInsentient entity, Location loc, double speed)
+    public HeroesEntityFollow(HeroesHealingWard ward, double speed)
     {
-        this.entity = entity;
-        this.loc = loc;
-        this.navigation = this.entity.getNavigation();
+        this.ward = ward;
+        this.navigation = this.ward.getNavigation();
         this.speed = speed;
     }
 
     public boolean a() {
+        if(ward.getGoalTarget() != null){
+            return false;
+        }
+
+        Location loc = ward.getPlayerOwner().getLocation();
+        Location summonedLoc = ward.getBukkitEntity().getLocation();
+
+        double distance = loc.distance(summonedLoc);
+        if(distance < 5){
+            return false;
+        }
+
+
         return true;
     }
 
     public void c()
     {
-        PathEntity pathEntity = this.navigation.a(loc.getX(), loc.getY(), loc.getZ());
-
+        Location l = ward.getPlayerOwner().getLocation();
+        PathEntity pathEntity = this.navigation.a(l.getX(),l.getY(), l.getZ());
         this.navigation.a(pathEntity, speed);
     }
 }
