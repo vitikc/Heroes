@@ -6,6 +6,7 @@ import me.vitikc.heroes.entity.HeroesEntityFollow;
 import me.vitikc.heroes.entity.HeroesHealingWard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public class HeroesYurneroAbilities {
         ATTACKRANGE(5),
         ATTACKDURATION(5),
         DEFENSEDURATION(5),
+        DEFENSERADIUS(6),
         ULTIMATEATTACKS(9),
         ULTIMATERADIUS(5);
 
@@ -38,6 +40,8 @@ public class HeroesYurneroAbilities {
     private enum dValues{
         ATTACKDAMAGE(0.5),
         ATTACKTICK(0.5),
+        DEFENSEHEAL(1),
+        DEFENSETICK(0.5),
         ULTIMATETICK(0.5),
         ULTIMATEDAMAGE(1);
 
@@ -94,15 +98,31 @@ public class HeroesYurneroAbilities {
         final  int id = new BukkitRunnable(){
             @Override
             public void run() {
+                if (!healingWard.isAlive())
+                    return;
+                World world = healingWard.getWorld().getWorld();
+                Location location = healingWard.getBukkitEntity().getLocation();
+                int radius = iValues.DEFENSERADIUS.value;
+                for (Entity entity : world.getNearbyEntities(location,radius,radius,radius)){
+                    if (!(entity instanceof Player))
+                        continue;
+                    Player p = (Player)entity;
+                    if (!p.equals(player))
+                        continue;
+                    if (player.getHealth()>=19.6f)
+                        continue;
+                    player.setHealth(player.getHealth()+dValues.DEFENSEHEAL.value);
+                }
 
             }
         }.runTaskTimer(plugin,
-                0L,
-                20L*iValues.DEFENSEDURATION.value).getTaskId();
+                (int)(20L*dValues.DEFENSETICK.value),
+                (int)(20L*dValues.DEFENSETICK.value)).getTaskId();
         new BukkitRunnable(){
             @Override
             public void run() {
                 ((CraftWorld)loc.getWorld()).getHandle().removeEntity(healingWard);
+                Bukkit.getServer().getScheduler().cancelTask(id);
             }
         }.runTaskLater(plugin, 20L*iValues.DEFENSEDURATION.value);
     }
