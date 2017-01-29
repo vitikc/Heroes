@@ -22,7 +22,7 @@ public class HeroesCommandExecutor implements CommandExecutor{
 
     public void showHeroesList(Player player){
         for (int i = 0;i < HeroTypes.values().length; i++){
-            player.sendMessage(i+1 + "." + HeroTypes.values()[i].toString());
+            player.sendMessage(i+1 + "." + HeroTypes.values()[i].getName());
         }
     }
 
@@ -48,7 +48,7 @@ public class HeroesCommandExecutor implements CommandExecutor{
                 int num = Integer.parseInt(args[1]);
                 if (heroesManager.isSet(player)){
                     player.sendMessage("You already choosed hero - "
-                            + heroesManager.getPlayerHero(player).toString());
+                            + heroesManager.getPlayerHero(player).getName());
                     return true;
                 }
                 heroesManager.addPlayer(player, HeroTypes.values()[num-1]);

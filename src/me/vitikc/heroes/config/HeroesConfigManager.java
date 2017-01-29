@@ -14,17 +14,22 @@ public class HeroesConfigManager {
     private HeroesMain plugin;
 
     private File configFile;
+    private File dataFile;
     private static FileConfiguration config;
+    private static FileConfiguration data;
 
     public HeroesConfigManager(HeroesMain plugin){
         this.plugin = plugin;
-        createConfig();
+        createFiles();
         loadConfig();
+        loadData();
     }
 
-    private void createConfig(){
+    private void createFiles(){
         configFile = new File(plugin.getDataFolder(), "config.yml");
+        dataFile = new File(plugin.getDataFolder(), "players.yml");
         config = YamlConfiguration.loadConfiguration(configFile);
+        data = YamlConfiguration.loadConfiguration(dataFile);
         if (!configFile.exists()) {
             try {
                 config.save(configFile);
@@ -33,12 +38,36 @@ public class HeroesConfigManager {
                 throw new IllegalStateException("Unable to create config file ", ex);
             }
         }
+        if (!dataFile.exists()){
+            try {
+                data.save(dataFile);
+                plugin.getLogger().info("Generating new data file...");
+            } catch (IOException ex) {
+                throw new IllegalStateException("Unable to create data file ", ex);
+            }
+        }
+    }
+
+    public void savaData(){
+        try {
+            data.save(dataFile);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void saveConfig(){
         try {
             config.save(configFile);
         } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void loadData(){
+        try {
+            data.load(dataFile);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -54,6 +83,10 @@ public class HeroesConfigManager {
     public FileConfiguration getConfig(){
         return config;
 
+    }
+
+    public FileConfiguration getData(){
+        return data;
     }
 
     public int getInt(String arg1, String arg2){

@@ -27,7 +27,7 @@ public class HeroesMain extends JavaPlugin {
     @Override
     public void onEnable() {
         configManager = new HeroesConfigManager(this);
-        heroesManager = new HeroesManager();
+        heroesManager = new HeroesManager(this);
         cooldown = new HeroesCooldown();
         abilityUtils = new HeroesAbilityUtils();
         abilitiesManager = new HeroesAbilitiesManager(this);
