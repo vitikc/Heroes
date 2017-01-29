@@ -48,8 +48,8 @@ public class HeroesManager {
     }
     public void loadPlayerData(){
         for (String name: config.getData().getKeys(true)){
-            String tname = config.getData().getString(name);
-            HeroTypes type = HeroTypes.getType(tname);
+            String typename = config.getData().getString(name);
+            HeroTypes type = HeroTypes.getType(typename);
             if (type == null)
                 return;
             playersHeroes.put(name,type);
