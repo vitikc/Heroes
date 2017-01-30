@@ -22,4 +22,13 @@ public class HeroesParticlesManager {
             l.subtract(x,0,z);
         }
     }
+    public void lemniscate(Location l, Particle p, double d){
+        for (double i = 0; i < 50; i+=0.5){
+            double x = (d*Math.cos(i))/(1+Math.pow(Math.sin(i),2));
+            double z = (d*Math.sin(i)*Math.cos(i))/(1+Math.pow(Math.sin(i),2));
+            l.add(x,0,z);
+            l.getWorld().spawnParticle(p, l, 0);
+            l.subtract(x,0,z);
+        }
+    }
 }

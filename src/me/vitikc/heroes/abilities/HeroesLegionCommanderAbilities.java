@@ -90,14 +90,15 @@ public class HeroesLegionCommanderAbilities {
         duels.put(player, target);
         player.sendMessage("DUEL STARTED");
         target.sendMessage("DUEL STARTED");
-        Location loc1 = player.getLocation();
-        Location loc2 = target.getLocation();
+        final Location loc1 = player.getLocation().add(0,1,0);
+        final Location loc2 = target.getLocation().add(0,1,0);
         final int id = new BukkitRunnable(){
             @Override
             public void run() {
-               // particles.circle(loc, Particle.FLAME,5);
+                particles.circle(loc1, Particle.FLAME, 1);
+                particles.circle(loc2, Particle.FLAME, 1);
             }
-        }.runTaskTimer(plugin,0L,20L * iValues.DUELTIME.value).getTaskId();
+        }.runTaskTimer(plugin,0L,20L).getTaskId();
         new BukkitRunnable(){
             @Override
             public void run(){
