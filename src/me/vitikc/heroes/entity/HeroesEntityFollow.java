@@ -26,14 +26,13 @@ public class HeroesEntityFollow extends PathfinderGoal {
             return false;
         }
 
-        Location loc = ward.getPlayerOwner().getLocation();
-        Location summonedLoc = ward.getBukkitEntity().getLocation();
+        Location pLoc = ward.getPlayerOwner().getLocation();
+        Location eLoc = ward.getBukkitEntity().getLocation();
 
-        double distance = loc.distance(summonedLoc);
+        double distance = pLoc.distance(eLoc);
         if(distance < 5){
             return false;
         }
-
 
         return true;
     }

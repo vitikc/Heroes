@@ -39,10 +39,6 @@ public class HeroesHealingWard extends EntityChicken {
         this.goalSelector.a(8, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true));
     }
-    public HeroesHealingWard(Location loc) {
-        super(((CraftWorld)loc.getWorld()).getHandle());
-        this.setPosition(loc.getX(), loc.getY(), loc.getZ());
-    }
 
     public static Object getPrivateField(String fieldName, Class clazz, Object object)
     {

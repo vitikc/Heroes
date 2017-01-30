@@ -2,6 +2,10 @@ package me.vitikc.heroes.abilities;
 
 import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.config.HeroesConfigManager;
+import me.vitikc.heroes.particles.HeroesParticlesManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class HeroesLegionCommanderAbilities {
     private HeroesMain plugin;
     private HeroesConfigManager config;
+    private HeroesParticlesManager particles;
 
     private enum dValues{
         DAMAGEPERDUEL(0.5),
@@ -44,6 +49,7 @@ public class HeroesLegionCommanderAbilities {
     public HeroesLegionCommanderAbilities(HeroesMain plugin){
         this.plugin = plugin;
         config = plugin.getConfigManager();
+        particles = plugin.getParticlesManager();
         damageEarned = new HashMap<>();
         duels = new Hashtable<>();
 
@@ -84,11 +90,20 @@ public class HeroesLegionCommanderAbilities {
         duels.put(player, target);
         player.sendMessage("DUEL STARTED");
         target.sendMessage("DUEL STARTED");
+        Location loc1 = player.getLocation();
+        Location loc2 = target.getLocation();
+        final int id = new BukkitRunnable(){
+            @Override
+            public void run() {
+               // particles.circle(loc, Particle.FLAME,5);
+            }
+        }.runTaskTimer(plugin,0L,20L * iValues.DUELTIME.value).getTaskId();
         new BukkitRunnable(){
             @Override
             public void run(){
                 duels.remove(player);
                 duels.remove(target);
+                Bukkit.getScheduler().cancelTask(id);
                 player.sendMessage("DUEL ENDED");
                 target.sendMessage("DUEL ENDED");
             }

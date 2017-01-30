@@ -11,6 +11,7 @@ import me.vitikc.heroes.listeners.HeroesDamageListener;
 import me.vitikc.heroes.listeners.HeroesDeathListener;
 import me.vitikc.heroes.listeners.HeroesItemListener;
 import me.vitikc.heroes.listeners.HeroesPlayerMoveListener;
+import me.vitikc.heroes.particles.HeroesParticlesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -23,12 +24,14 @@ public class HeroesMain extends JavaPlugin {
     private HeroesCooldown cooldown;
     private HeroesCooldownValues cooldownValues;
     private HeroesConfigManager configManager;
+    private HeroesParticlesManager particlesManager;
 
     @Override
     public void onEnable() {
         configManager = new HeroesConfigManager(this);
         heroesManager = new HeroesManager(this);
         cooldown = new HeroesCooldown();
+        particlesManager = new HeroesParticlesManager();
         abilityUtils = new HeroesAbilityUtils();
         abilitiesManager = new HeroesAbilitiesManager(this);
         cooldownValues = new HeroesCooldownValues(this);
@@ -72,5 +75,9 @@ public class HeroesMain extends JavaPlugin {
 
     public HeroesConfigManager getConfigManager(){
         return configManager;
+    }
+
+    public HeroesParticlesManager getParticlesManager() {
+        return particlesManager;
     }
 }

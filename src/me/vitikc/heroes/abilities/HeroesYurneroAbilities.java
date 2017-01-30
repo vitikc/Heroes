@@ -4,8 +4,10 @@ import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.config.HeroesConfigManager;
 import me.vitikc.heroes.entity.HeroesEntityFollow;
 import me.vitikc.heroes.entity.HeroesHealingWard;
+import me.vitikc.heroes.particles.HeroesParticlesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.entity.Entity;
@@ -21,6 +23,7 @@ import java.util.Random;
 public class HeroesYurneroAbilities {
     private HeroesMain plugin;
     private HeroesConfigManager config;
+    private HeroesParticlesManager particles;
 
     private final int SECONDS = 1000;
 
@@ -54,26 +57,24 @@ public class HeroesYurneroAbilities {
     public HeroesYurneroAbilities(HeroesMain plugin){
         this.plugin = plugin;
         config = plugin.getConfigManager();
+        particles = plugin.getParticlesManager();
 
         loadFromConfig();
         setDefaultConfig();
     }
 
     public void Attack(final Player player){
+        final int range = iValues.ATTACKRANGE.value;
         final int id = new BukkitRunnable() {
             @Override
             public void run() {
-                for (Entity e : player.getNearbyEntities(
-                        iValues.ATTACKRANGE.value,
-                        iValues.ATTACKRANGE.value,
-                        iValues.ATTACKRANGE.value)
-                        )
+                for (Entity e : player.getNearbyEntities(range, range, range))
                 {
                     if (!(e instanceof Player)) continue;
                     Player p = (Player) e;
                     p.damage(dValues.ATTACKDAMAGE.value);
-                    p.sendMessage("You damaged by Yurnero attack ability");
                 }
+                particles.circle(player.getLocation(),Particle.FLAME,range);
             }
 
         }.runTaskTimer(plugin,
@@ -102,7 +103,9 @@ public class HeroesYurneroAbilities {
                     return;
                 World world = healingWard.getWorld().getWorld();
                 Location location = healingWard.getBukkitEntity().getLocation();
+                Particle particle = Particle.VILLAGER_HAPPY;
                 int radius = iValues.DEFENSERADIUS.value;
+                particles.circle(location,particle,radius);
                 for (Entity entity : world.getNearbyEntities(location,radius,radius,radius)){
                     if (!(entity instanceof Player))
                         continue;
@@ -133,14 +136,11 @@ public class HeroesYurneroAbilities {
         target.damage(dValues.ULTIMATEDAMAGE.value);
         target.sendMessage("You damaged by Yurnero ultimate ability");
         attacks--;
+        final int range =  iValues.ULTIMATERADIUS.value;
         final int id = new BukkitRunnable() {
             @Override
             public void run() {
-                for (Entity e : player.getNearbyEntities(
-                        iValues.ATTACKRANGE.value,
-                        iValues.ATTACKRANGE.value,
-                        iValues.ATTACKRANGE.value)
-                        )
+                for (Entity e : player.getNearbyEntities(range,range,range))
                 {
                     if (!(e instanceof Player)) continue;
                     Player p = (Player) e;
