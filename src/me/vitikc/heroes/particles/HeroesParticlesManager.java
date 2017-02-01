@@ -22,6 +22,16 @@ public class HeroesParticlesManager {
             l.subtract(x,0,z);
         }
     }
+    public void spiral(Location l, Particle p, int r){
+        for (double i = 0; i < 50; i+=0.5){
+            double x = r*Math.cos(i);
+            double y = i*0.2;
+            double z = r*Math.sin(i);
+            l.add(x,y,z);
+            l.getWorld().spawnParticle(p,l, 0);
+            l.subtract(x,y,z);
+        }
+    }
     public void lemniscate(Location l, Particle p, double d){
         for (double i = 0; i < 50; i+=0.5){
             double x = (d*Math.cos(i))/(1+Math.pow(Math.sin(i),2));
@@ -31,4 +41,5 @@ public class HeroesParticlesManager {
             l.subtract(x,0,z);
         }
     }
+
 }

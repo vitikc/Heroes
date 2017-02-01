@@ -7,10 +7,8 @@ import me.vitikc.heroes.config.HeroesConfigManager;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
 import me.vitikc.heroes.entity.HeroesCustomEntities;
-import me.vitikc.heroes.listeners.HeroesDamageListener;
-import me.vitikc.heroes.listeners.HeroesDeathListener;
-import me.vitikc.heroes.listeners.HeroesItemListener;
-import me.vitikc.heroes.listeners.HeroesPlayerMoveListener;
+import me.vitikc.heroes.items.HeroesItemsManager;
+import me.vitikc.heroes.listeners.*;
 import me.vitikc.heroes.particles.HeroesParticlesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +23,7 @@ public class HeroesMain extends JavaPlugin {
     private HeroesCooldownValues cooldownValues;
     private HeroesConfigManager configManager;
     private HeroesParticlesManager particlesManager;
+    private HeroesItemsManager itemsManager;
 
     @Override
     public void onEnable() {
@@ -35,11 +34,14 @@ public class HeroesMain extends JavaPlugin {
         abilityUtils = new HeroesAbilityUtils();
         abilitiesManager = new HeroesAbilitiesManager(this);
         cooldownValues = new HeroesCooldownValues(this);
+        itemsManager = new HeroesItemsManager(this);
 
-        getServer().getPluginManager().registerEvents(new HeroesItemListener(this),this);
+        getServer().getPluginManager().registerEvents(new HeroesItemAbilitiesListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDamageListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesPlayerMoveListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDeathListener(this),this);
+        getServer().getPluginManager().registerEvents(new HeroesItemListener(this),this);
+
 
         getCommand("heroes").setExecutor(new HeroesCommandExecutor(this));
 
@@ -79,5 +81,9 @@ public class HeroesMain extends JavaPlugin {
 
     public HeroesParticlesManager getParticlesManager() {
         return particlesManager;
+    }
+
+    public HeroesItemsManager getItemsManager() {
+        return itemsManager;
     }
 }

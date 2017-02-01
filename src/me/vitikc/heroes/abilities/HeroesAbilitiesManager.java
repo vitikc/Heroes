@@ -9,11 +9,13 @@ public class HeroesAbilitiesManager {
     private HeroesMain plugin;
     private HeroesBarbarianAbilities barbarian;
     private HeroesLegionCommanderAbilities legionCommander;
+    private HeroesSamuraiAbilities samurai;
     private HeroesYurneroAbilities yurnero;
     public HeroesAbilitiesManager(HeroesMain plugin) {
         this.plugin = plugin;
         barbarian = new HeroesBarbarianAbilities(plugin);
         legionCommander = new HeroesLegionCommanderAbilities(plugin);
+        samurai = new HeroesSamuraiAbilities(plugin);
         yurnero = new HeroesYurneroAbilities(plugin);
     }
 
@@ -27,5 +29,9 @@ public class HeroesAbilitiesManager {
 
     public HeroesYurneroAbilities getYurnero(){
         return yurnero;
+    }
+
+    public HeroesSamuraiAbilities getSamurai() {
+        return samurai;
     }
 }

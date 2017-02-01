@@ -2,15 +2,16 @@ package me.vitikc.heroes.abilities;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Vitikc on 09/Jan/17.
@@ -77,6 +78,28 @@ public class HeroesAbilityUtils {
         }
         return null;
     }
+    public HashSet<Entity> getEntitiesAtLine(Player p, int range){
+        List<Entity> entities = p.getNearbyEntities(range,range,range);
+        HashSet<Entity> targets = new HashSet<>();
+        ArrayList<Block> sightBlock = (ArrayList<Block>) p.getLineOfSight( (Set<Material>) null, range);
+        ArrayList<Location> sight = new ArrayList<>();
+        for (int i = 0;i<sightBlock.size();i++)
+            sight.add(sightBlock.get(i).getLocation());
+        for (int i = 0;i<sight.size();i++) {
+            for (int k = 0;k<entities.size();k++) {
+                if (Math.abs(entities.get(k).getLocation().getX()-sight.get(i).getX())<1.3) {
+                    if (Math.abs(entities.get(k).getLocation().getY()-sight.get(i).getY())<1.5) {
+                        if (Math.abs(entities.get(k).getLocation().getZ()-sight.get(i).getZ())<1.3) {
+                            targets.add(entities.get(k));
+                        }
+                    }
+                }
+            }
+        }
+        return targets; //Return null/nothing if no entity was found
+    }
+
+
     public boolean isChanceProc(int chance){
         double r = Math.random();
         if (r*100 <= chance) return true;

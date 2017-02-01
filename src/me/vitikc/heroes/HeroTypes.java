@@ -6,7 +6,12 @@ import javax.annotation.Nullable;
  * Created by Vitikc on 09/Jan/17.
  */
 public enum  HeroTypes {
-    BARBARIAN("Barbarian"),LEGION_COMMANDER("Legion Commander"), YURNERO("Yurnero");
+    BARBARIAN("Barbarian"),
+    DRAGON_KNIGHT("Dragon Knight"),
+    LEGION_COMMANDER("Legion Commander"),
+    SAMURAI("Samurai"),
+    YURNERO("Yurnero");
+
     private String name;
     HeroTypes(String name){
         this.name = name;
