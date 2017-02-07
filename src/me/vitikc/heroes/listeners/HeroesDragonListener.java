@@ -1,10 +1,12 @@
 package me.vitikc.heroes.listeners;
 
+import me.vitikc.heroes.HeroTypes;
 import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
 import me.vitikc.heroes.entity.HeroesDragon;
-import net.minecraft.server.v1_11_R1.EntityInsentient;
+import me.vitikc.heroes.entity.HeroesGolem;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -12,8 +14,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.spigotmc.event.entity.EntityDismountEvent;
 
 /**
  * Created by Vitikc on 06/Feb/17.
@@ -26,6 +32,7 @@ public class HeroesDragonListener implements Listener {
         this.plugin = plugin;
         this.abilities = plugin.getAbilitiesManager();
     }
+
 
     @EventHandler
     public void onDragonPassBlock(EntityExplodeEvent event){
@@ -60,14 +67,20 @@ public class HeroesDragonListener implements Listener {
             }
             Player player = (Player) event.getEntity();
             if (!plugin.getHeroesManager().isSet(player)){
+                event.setCancelled(true);
                 return;
             }
             Player owner = plugin.getServer().getPlayer(p);
+            if (plugin.getHeroesManager().getPlayerHero(owner) != HeroTypes.SAMURAI) {
+                event.setCancelled(true);
+                return;
+            }
             int buff = 0;
             if (abilities.getSamurai().getBuffed().containsKey(owner))
                 buff = abilities.getSamurai().getBuffed().get(owner);
-            abilities.getSamurai().getBuffed().put(owner,++buff);
-            Bukkit.getServer().broadcastMessage(owner.getName()+":"+buff);
+            abilities.getSamurai().getBuffed().put(owner, ++buff);
+            Bukkit.getServer().broadcastMessage(owner.getName() + ":" + buff);
+            event.setDamage(4f);
         }
     }
     @EventHandler
@@ -80,9 +93,10 @@ public class HeroesDragonListener implements Listener {
         if (arr.length>2)
             return;
         d = arr[0];
-        if (d.equalsIgnoreCase("dragon")){
-            if (event.getNewPhase().equals(EnderDragon.Phase.BREATH_ATTACK))
+        if (d.equalsIgnoreCase("dragon")) {
+            if (!event.getNewPhase().equals(EnderDragon.Phase.CIRCLING)){
                 event.setCancelled(true);
+            }
         }
     }
 }

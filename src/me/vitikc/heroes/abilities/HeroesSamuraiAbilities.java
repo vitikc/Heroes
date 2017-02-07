@@ -5,7 +5,6 @@ import me.vitikc.heroes.config.HeroesConfigManager;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
 import me.vitikc.heroes.entity.HeroesDragon;
-import net.minecraft.server.v1_11_R1.World;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.entity.Entity;
@@ -25,7 +24,6 @@ import java.util.HashSet;
 public class HeroesSamuraiAbilities {
     private HeroesMain plugin;
     private HeroesCooldown cooldown;
-    private HeroesCooldownValues cooldownValues;
     private HeroesConfigManager config;
     private HeroesAbilityUtils utils;
 
@@ -33,26 +31,50 @@ public class HeroesSamuraiAbilities {
 
     private HashSet<PotionEffectType> effects = new HashSet<>();
 
+    private enum dValues{
+        ATTACKDAMAGE(1f);
+
+        private double value;
+        dValues(double value){
+            this.value = value;
+        }
+    }
+    private enum iValues{
+        BUFFDURATION(10);
+
+        private int value;
+        iValues(int value){
+            this.value = value;
+        }
+    }
+
     public HeroesSamuraiAbilities(HeroesMain plugin){
         this.plugin = plugin;
         cooldown = plugin.getCooldown();
-        cooldownValues = plugin.getCooldownValues();
         config = plugin.getConfigManager();
         utils = plugin.getAbilityUtils();
         effects.add(PotionEffectType.SPEED);
         effects.add(PotionEffectType.INCREASE_DAMAGE);
+
+        loadFromConfig();
+        setDefaultConfig();
     }
 
     public void Attack(Player player){
         Vector vector = player.getLocation().getDirection().multiply(4);
         vector.setY(0);
         player.setVelocity(vector);
-
+        boolean isGetsCooldown = true;
         for(Entity e : utils.getEntitiesAtLine(player, 10)) {
-            player.sendMessage(e.getType().name());
-            //e damage
-            //if (e.isDead()) no cooldown
+            if (!(e instanceof Player)) continue;
+            Player p = (Player) e;
+            p.damage(dValues.ATTACKDAMAGE.value);
+            if (p.isDead()) isGetsCooldown = false;
         }
+        if (isGetsCooldown)
+            cooldown.putCooldown(player,
+                    HeroesCooldownValues.Values.SAMURAIATTACK.name(),
+                    HeroesCooldownValues.Values.SAMURAIATTACK.get());
     }
 
     public void Defense(){
@@ -84,11 +106,40 @@ public class HeroesSamuraiAbilities {
                         ampf = buffed.get(player);
                         if (ampf>3) ampf = 3;
                     }
-                    PotionEffect pe = new PotionEffect(pt,100,ampf);
+                    PotionEffect pe = new PotionEffect(pt,20*iValues.BUFFDURATION.value,ampf);
                     player.addPotionEffect(pe);
                 }
                 buffed.put(player, 0);
             }
         }.runTaskLater(plugin, 10L);
+    }
+    public void loadFromConfig(){
+        String sa = "Samurai";
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(sa + "." + name))
+                dValues.values()[i].value = config.getDouble(sa, name);
+        }
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(config.getConfig().isSet(sa + "." + name))
+                iValues.values()[i].value = config.getInt(sa, name);
+        }
+    }
+    public void setDefaultConfig(){
+        String sa = "Samurai";
+        for (int i = 0; i < dValues.values().length; i++){
+            String name = dValues.values()[i].toString().toLowerCase();
+            if(!config.getConfig().isSet(sa + "." + name)){
+                config.setDouble(sa, name, dValues.values()[i].value);
+            }
+        }
+        for (int i = 0; i < iValues.values().length; i++){
+            String name = iValues.values()[i].toString().toLowerCase();
+            if(!config.getConfig().isSet(sa + "." + name)){
+                config.setInt(sa, name, iValues.values()[i].value);
+            }
+        }
+        config.saveConfig();
     }
 }

@@ -6,14 +6,14 @@ import me.vitikc.heroes.HeroesMain;
  * Created by Vitikc on 12/Jan/17.
  */
 public class HeroesAbilitiesManager {
-    private HeroesMain plugin;
     private HeroesBarbarianAbilities barbarian;
+    private HeroesDragonKnightAbilities dragonKnight;
     private HeroesLegionCommanderAbilities legionCommander;
     private HeroesSamuraiAbilities samurai;
     private HeroesYurneroAbilities yurnero;
     public HeroesAbilitiesManager(HeroesMain plugin) {
-        this.plugin = plugin;
         barbarian = new HeroesBarbarianAbilities(plugin);
+        dragonKnight = new HeroesDragonKnightAbilities(plugin);
         legionCommander = new HeroesLegionCommanderAbilities(plugin);
         samurai = new HeroesSamuraiAbilities(plugin);
         yurnero = new HeroesYurneroAbilities(plugin);
@@ -21,6 +21,10 @@ public class HeroesAbilitiesManager {
 
     public HeroesBarbarianAbilities getBarbarian() {
         return barbarian;
+    }
+
+    public HeroesDragonKnightAbilities getDragonKnight() {
+        return dragonKnight;
     }
 
     public HeroesLegionCommanderAbilities getLegionCommander() {

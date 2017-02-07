@@ -25,8 +25,6 @@ public class HeroesYurneroAbilities {
     private HeroesConfigManager config;
     private HeroesParticlesManager particles;
 
-    private final int SECONDS = 1000;
-
     private enum iValues{
         ATTACKRANGE(5),
         ATTACKDURATION(5),

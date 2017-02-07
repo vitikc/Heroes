@@ -20,7 +20,7 @@ public class HeroesPlayerMoveListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event){
+    public void onPlayerInDuelMove(PlayerMoveEvent event){
         Player player = event.getPlayer();
         if (!abilitiesManager.getLegionCommander().isPlayerInDuel(player)){
             return;
@@ -40,5 +40,14 @@ public class HeroesPlayerMoveListener implements Listener {
             player.teleport(event.getFrom());
             event.setTo(to);
         }
+    }
+    @EventHandler
+    public void onPlayerInStunMove(PlayerMoveEvent event){
+        Player player = event.getPlayer();
+        if (!abilitiesManager.getDragonKnight().getStunned().contains(player)){
+            return;
+        }
+        player.sendMessage("You are stunned!");
+        event.setCancelled(true);
     }
 }

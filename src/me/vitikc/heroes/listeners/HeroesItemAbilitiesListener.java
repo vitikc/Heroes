@@ -77,14 +77,14 @@ public class HeroesItemAbilitiesListener implements Listener {
                         abilitiesManager.getYurnero().Attack(player);
                         player.sendMessage("Attackink");
                         cooldown.putCooldown(player,
-                                HeroesCooldownValues.Values.YURNEROATTACK.toString(),
-                                HeroesCooldownValues.Values.YURNEROATTACK.get());
+                            HeroesCooldownValues.Values.YURNEROATTACK.toString(),
+                            HeroesCooldownValues.Values.YURNEROATTACK.get());
                     }
                     else {
                         player.sendMessage("Cooldown " +
-                                cooldown.getCooldown(player,
-                                        HeroesCooldownValues.Values.YURNEROATTACK.toString())/
-                                        cooldownValues.SECONDS
+                            cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.YURNEROATTACK.toString())/
+                            cooldownValues.SECONDS
                         );
                     }
                 } else if (player.getInventory().getItemInMainHand().getType() == Material.EMERALD){
@@ -92,26 +92,66 @@ public class HeroesItemAbilitiesListener implements Listener {
                             HeroesCooldownValues.Values.YURNERODEFENSE.toString())<=0){
                         abilitiesManager.getYurnero().Defense(player);
                         cooldown.putCooldown(player,
-                                HeroesCooldownValues.Values.YURNERODEFENSE.toString(),
-                                HeroesCooldownValues.Values.YURNERODEFENSE.get());
+                            HeroesCooldownValues.Values.YURNERODEFENSE.toString(),
+                            HeroesCooldownValues.Values.YURNERODEFENSE.get());
                     }
                     else {
                         player.sendMessage("Cooldown " +
-                                cooldown.getCooldown(player,
-                                        HeroesCooldownValues.Values.YURNERODEFENSE.toString()) /
-                                        cooldownValues.SECONDS
+                            cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.YURNERODEFENSE.toString()) /
+                            cooldownValues.SECONDS
                         );
                     }
                 }
                 break;
             case SAMURAI:
                 if (player.getInventory().getItemInMainHand().getType() == Material.COAL){
+                    if (cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIATTACK.name())<=0)
                     abilitiesManager.getSamurai().Attack(player);
+                    else
+                        player.sendMessage("Cooldown "+ cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIATTACK.name()) /
+                            cooldownValues.SECONDS);
                 } else if (player.getInventory().getItemInMainHand().getType() == Material.STICK){
-                    abilitiesManager.getSamurai().Ultimate(player);
+                    if (cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIULTIMATE.name())<=0) {
+                        abilitiesManager.getSamurai().Ultimate(player);
+                        cooldown.putCooldown(player,
+                            HeroesCooldownValues.Values.SAMURAIULTIMATE.name(),
+                            HeroesCooldownValues.Values.SAMURAIULTIMATE.get());
+                    } else
+                        player.sendMessage("Cooldown "+ cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIULTIMATE.name()) /
+                            cooldownValues.SECONDS);
                 }
                 break;
             case DRAGON_KNIGHT:
+                if (player.getInventory().getItemInMainHand().getType() == Material.COAL) {
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.DRAGONKNIGHTATTACK.toString())<=0) {
+                        abilitiesManager.getDragonKnight().Attack(player);
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.DRAGONKNIGHTATTACK.toString(),
+                                HeroesCooldownValues.Values.DRAGONKNIGHTATTACK.get());
+                    } else {
+                        player.sendMessage("Cooldown " +
+                                cooldown.getCooldown(player,
+                                        HeroesCooldownValues.Values.DRAGONKNIGHTATTACK.toString()) /
+                                        cooldownValues.SECONDS
+                        );
+                    }
+                } else if (player.getInventory().getItemInMainHand().getType() == Material.DIAMOND){
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.DRAGONKNIGHTULTIMATE.toString())<=0) {
+                        abilitiesManager.getDragonKnight().Ultimate(player);
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.DRAGONKNIGHTULTIMATE.toString(),
+                                HeroesCooldownValues.Values.DRAGONKNIGHTULTIMATE.get());
+                    } else {
+                        player.sendMessage("Cooldown " +
+                                cooldown.getCooldown(player,
+                                        HeroesCooldownValues.Values.DRAGONKNIGHTULTIMATE.toString()) /
+                                        cooldownValues.SECONDS
+                        );
+                    }
+                }
                 break;
             default:
                 break;
@@ -189,6 +229,23 @@ public class HeroesItemAbilitiesListener implements Listener {
                         player.sendMessage("Cooldown " +
                                 cooldown.getCooldown(player,
                                         HeroesCooldownValues.Values.YURNEROULTIMATE.toString())/
+                                        cooldownValues.SECONDS
+                        );
+                    }
+                }
+                break;
+            case DRAGON_KNIGHT:
+                if (player.getInventory().getItemInMainHand().getType() == Material.STICK){
+                    if (cooldown.getCooldown(player,
+                            HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.toString())<=0) {
+                        abilitiesManager.getDragonKnight().Stun(target);
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.toString(),
+                                HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.get());
+                    } else {
+                        player.sendMessage("Cooldown " +
+                                cooldown.getCooldown(player,
+                                        HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.toString())/
                                         cooldownValues.SECONDS
                         );
                     }

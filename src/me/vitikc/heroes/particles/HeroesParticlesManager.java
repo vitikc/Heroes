@@ -1,12 +1,10 @@
 package me.vitikc.heroes.particles;
 
 import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Vitikc on 30/Jan/17.
@@ -50,5 +48,26 @@ public class HeroesParticlesManager {
             l.subtract(x,0,z);
         }
     }
-
+    public void breath(Location l, Particle p, int r){
+        Vector dir = l.getDirection();
+        dir.normalize();
+        for (double i = 0; i< r; i++) {
+            l.add(dir).multiply(1);
+            double o = i*0.02;
+            l.getWorld().spawnParticle(p,l,0,o,o,o);
+            l.getWorld().spawnParticle(p,l,0,-o,o,o);
+            l.getWorld().spawnParticle(p,l,0,o,o,-o);
+            l.getWorld().spawnParticle(p,l,0,-o,o,-o);
+            l.getWorld().spawnParticle(p,l,0,-o,-o,o);
+            l.getWorld().spawnParticle(p,l,0,o,-o,-o);
+            l.getWorld().spawnParticle(p,l,0,-o,-o,-o);
+            l.getWorld().spawnParticle(p,l,0,-o,0,o);
+            l.getWorld().spawnParticle(p,l,0,o,0,-o);
+            l.getWorld().spawnParticle(p,l,0,-o,0,-o);
+            l.getWorld().spawnParticle(p,l,0,o,0,o);
+            l.getWorld().spawnParticle(p,l,0,-o,0,0);
+            l.getWorld().spawnParticle(p,l,0,o,0,0);
+            l.getWorld().spawnParticle(p,l,0);
+        }
+    }
 }

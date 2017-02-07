@@ -27,7 +27,6 @@ public class HeroesHealingWard extends EntityChicken {
         this.setCustomName("Healing ward");
         this.owner = owner;
 
-
         this.setHealth(1f);
         this.expToDrop = 0;
 

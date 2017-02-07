@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.lang.reflect.Field;
 import java.util.LinkedHashSet;
 import java.util.UUID;
 
@@ -37,11 +38,11 @@ public class HeroesDragon extends EntityEnderDragon {
 
 
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        //this.goalSelector.a(2, new HeroesEntityMoveForward(this, plugin));
         this.getDragonControllerManager().setControllerPhase(DragonControllerPhase.a);
 
         dieAfter();
     }
+
     private void dieAfter(){
         new BukkitRunnable(){
             @Override
