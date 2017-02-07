@@ -8,10 +8,7 @@ import org.bukkit.Location;
 public class HeroesEntityFollow extends PathfinderGoal {
 
     private double speed;
-
     private HeroesHealingWard ward;
-
-
     private NavigationAbstract navigation;
 
     public HeroesEntityFollow(HeroesHealingWard ward, double speed)

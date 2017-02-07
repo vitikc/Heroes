@@ -11,7 +11,8 @@ import java.util.Set;
  * TY to @Arektor NMS Tutorials
  */
 public enum HeroesCustomEntities {
-    HEALINGWARD("HealingWard",93, EntityType.CHICKEN, EntityChicken.class, HeroesHealingWard.class);
+    HEALINGWARD("HealingWard",93, EntityType.CHICKEN, EntityChicken.class, HeroesHealingWard.class),
+    DRAGON("Dragon",63, EntityType.ENDER_DRAGON, EntityEnderDragon.class, HeroesDragon.class);
 
     private String name;
     private int id;

@@ -107,6 +107,8 @@ public class HeroesItemAbilitiesListener implements Listener {
             case SAMURAI:
                 if (player.getInventory().getItemInMainHand().getType() == Material.COAL){
                     abilitiesManager.getSamurai().Attack(player);
+                } else if (player.getInventory().getItemInMainHand().getType() == Material.STICK){
+                    abilitiesManager.getSamurai().Ultimate(player);
                 }
                 break;
             case DRAGON_KNIGHT:

@@ -111,16 +111,10 @@ public class HeroesLegionCommanderAbilities {
         }.runTaskLater(this.plugin, 20L * iValues.DUELTIME.value);
     }
     public boolean isEarnedDamage(Player player){
-        if (damageEarned.containsKey(player)){
-            return true;
-        }
-        return false;
+        return damageEarned.containsKey(player);
     }
     public boolean isPlayerInDuel(Player player){
-        if (duels.containsKey(player)||duels.containsValue(player)){
-            return true;
-        }
-        return false;
+        return duels.containsKey(player) || duels.containsValue(player);
     }
 
     public static Hashtable<Player, Player> getDuels() {

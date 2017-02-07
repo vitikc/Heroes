@@ -21,15 +21,11 @@ public class HeroesDamageListener implements Listener {
     private HeroesMain plugin;
     private HeroesAbilityUtils abilityUtils;
     private HeroesAbilitiesManager abilitiesManager;
-    private HeroesCooldown cooldown;
-    private HeroesCooldownValues cooldownValues;
     private HeroesManager heroesManager;
     public HeroesDamageListener(HeroesMain plugin){
         this.plugin = plugin;
         abilitiesManager = plugin.getAbilitiesManager();
         abilityUtils = plugin.getAbilityUtils();
-        cooldown = plugin.getCooldown();
-        cooldownValues = plugin.getCooldownValues();
         heroesManager = plugin.getHeroesManager();
     }
     @EventHandler
@@ -89,6 +85,7 @@ public class HeroesDamageListener implements Listener {
                 break;
         }
     }
+
     @EventHandler
     public void onArrowHit(EntityDamageByEntityEvent event){
         if (event.getDamager().getType() != EntityType.ARROW) return;
@@ -96,7 +93,7 @@ public class HeroesDamageListener implements Listener {
         Arrow arrow = (Arrow) event.getDamager();
         if (arrow.getCustomName() == null) return;
         Player player = (Player) event.getEntity();
-        if (arrow.getCustomName() == player.getDisplayName()) {
+        if (arrow.getCustomName().equals(player.getDisplayName())) {
             event.setCancelled(true);
             plugin.getLogger().info(arrow.getCustomName());
             return;

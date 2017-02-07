@@ -10,10 +10,9 @@ import org.bukkit.entity.Player;
 /**
  * Created by Vitikc on 19/Jan/17.
  */
-public class HeroesBarbarianAbilities {
+public class HeroesBarbarianAbilities{
     private HeroesMain plugin;
     private HeroesCooldown cooldown;
-    private HeroesCooldownValues cooldownValues;
     private HeroesConfigManager config;
 
     private enum dValues{
@@ -42,7 +41,6 @@ public class HeroesBarbarianAbilities {
     public HeroesBarbarianAbilities(HeroesMain plugin){
         this.plugin = plugin;
         cooldown = plugin.getCooldown();
-        cooldownValues = plugin.getCooldownValues();
         config = plugin.getConfigManager();
         loadFromConfig();
         setDefaultConfig();
