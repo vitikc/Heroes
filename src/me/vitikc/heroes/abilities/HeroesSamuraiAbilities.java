@@ -28,6 +28,7 @@ public class HeroesSamuraiAbilities {
     private HeroesAbilityUtils utils;
 
     private static HashMap<Player, Integer> buffed = new HashMap<>();
+    private static HashSet<Player> reflect = new HashSet<>();
 
     private HashSet<PotionEffectType> effects = new HashSet<>();
 
@@ -40,7 +41,8 @@ public class HeroesSamuraiAbilities {
         }
     }
     private enum iValues{
-        BUFFDURATION(10);
+        BUFFDURATION(10),
+        REFLECTDURATION(1);
 
         private int value;
         iValues(int value){
@@ -77,8 +79,14 @@ public class HeroesSamuraiAbilities {
                     HeroesCooldownValues.Values.SAMURAIATTACK.get());
     }
 
-    public void Defense(){
-
+    public void Defense(final Player player){
+        reflect.add(player);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                reflect.remove(player);
+            }
+        }.runTaskLater(plugin, 20L*iValues.REFLECTDURATION.value);
     }
 
     public void Ultimate(Player player){
@@ -94,6 +102,10 @@ public class HeroesSamuraiAbilities {
 
     public HashMap<Player,Integer> getBuffed(){
         return buffed;
+    }
+
+    public static HashSet<Player> getReflected() {
+        return reflect;
     }
 
     private void buff(final Player player){

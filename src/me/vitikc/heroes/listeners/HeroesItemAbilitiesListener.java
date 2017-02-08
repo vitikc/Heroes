@@ -7,6 +7,7 @@ import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
 import me.vitikc.heroes.abilities.HeroesAbilityUtils;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
+import me.vitikc.heroes.events.HeroesStunEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -120,6 +121,15 @@ public class HeroesItemAbilitiesListener implements Listener {
                     } else
                         player.sendMessage("Cooldown "+ cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIULTIMATE.name()) /
                             cooldownValues.SECONDS);
+                }else if (player.getInventory().getItemInMainHand().getType() == Material.DIAMOND){
+                    if (cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIDEFENSE.name())<=0) {
+                        abilitiesManager.getSamurai().Defense(player);
+                        cooldown.putCooldown(player,
+                                HeroesCooldownValues.Values.SAMURAIDEFENSE.name(),
+                                HeroesCooldownValues.Values.SAMURAIDEFENSE.get());
+                    } else
+                        player.sendMessage("Cooldown "+ cooldown.getCooldown(player,HeroesCooldownValues.Values.SAMURAIULTIMATE.name()) /
+                                cooldownValues.SECONDS);
                 }
                 break;
             case DRAGON_KNIGHT:
@@ -238,7 +248,9 @@ public class HeroesItemAbilitiesListener implements Listener {
                 if (player.getInventory().getItemInMainHand().getType() == Material.STICK){
                     if (cooldown.getCooldown(player,
                             HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.toString())<=0) {
-                        abilitiesManager.getDragonKnight().Stun(target);
+                        HeroesStunEvent heroesStunEvent = new HeroesStunEvent(player,target);
+                        plugin.getServer().getPluginManager().callEvent(heroesStunEvent);
+                        if (!event.isCancelled()) abilitiesManager.getDragonKnight().Stun(target);
                         cooldown.putCooldown(player,
                                 HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.toString(),
                                 HeroesCooldownValues.Values.DRAGONKNIGHTSTUN.get());

@@ -34,7 +34,7 @@ public class HeroesGolemListener implements Listener{
         HeroesGolem  g = abilities.getDragonKnight().getGolemForm().get(p);
         g.setHealth((float)(event.getAmount()*2 + g.getHealth()));
     }
-    
+
     @EventHandler
     public void onDragonFormTakeDamage(EntityDamageByEntityEvent event){
         Entity e = event.getEntity();

@@ -5,14 +5,14 @@ import me.vitikc.heroes.HeroesMain;
 import me.vitikc.heroes.HeroesManager;
 import me.vitikc.heroes.abilities.HeroesAbilitiesManager;
 import me.vitikc.heroes.abilities.HeroesAbilityUtils;
+import me.vitikc.heroes.abilities.HeroesSamuraiAbilities;
 import me.vitikc.heroes.cooldown.HeroesCooldown;
 import me.vitikc.heroes.cooldown.HeroesCooldownValues;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 
 /**
  * Created by Vitikc on 11/Jan/17.
@@ -84,6 +84,20 @@ public class HeroesDamageListener implements Listener {
             default:
                 break;
         }
+    }
+    @EventHandler
+    public void onProjectileHitSamurai(EntityDamageByEntityEvent event){
+        Entity e = event.getEntity();
+        Entity d = event.getDamager();
+        if (!(e instanceof Player)) return;
+        if (!(d instanceof Projectile)) return;
+        Projectile p = (Projectile) d;
+        if (!(p.getShooter() instanceof  Player)) return;
+        Player s = (Player) p.getShooter();
+        Player h = (Player)e;
+        if (!HeroesSamuraiAbilities.getReflected().contains(h))return;
+        s.damage(event.getDamage());
+        event.setCancelled(true);
     }
 
     @EventHandler

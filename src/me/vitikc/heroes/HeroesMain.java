@@ -43,7 +43,7 @@ public class HeroesMain extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HeroesItemListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesDragonListener(this),this);
         getServer().getPluginManager().registerEvents(new HeroesGolemListener(this),this);
-
+        getServer().getPluginManager().registerEvents(new HeroesAbilitiesListener(this),this);
 
         getCommand("heroes").setExecutor(new HeroesCommandExecutor(this));
 
